@@ -134,7 +134,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Monaco"
-                               :size 24
+                               :size 20
                                :weight normal
                                :width normal
                                :powerline-scale 0.4)
@@ -313,6 +313,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq spacemacs-show-trailing-whitespace nil)
   (define-key evil-motion-state-map "f" 'evil-avy-goto-word-or-subword-1)
+  (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
