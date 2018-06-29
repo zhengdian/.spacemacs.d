@@ -323,6 +323,8 @@ you should place your code here."
   (setq spacemacs-show-trailing-whitespace nil)
   (define-key evil-motion-state-map "f" 'evil-avy-goto-word-or-subword-1)
   (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
+  (define-key evil-motion-state-map (kbd "C-k") 'evil-scroll-line-up)
+  (define-key evil-motion-state-map (kbd "C-j") 'evil-scroll-line-down)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
