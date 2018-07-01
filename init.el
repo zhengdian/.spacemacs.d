@@ -38,11 +38,15 @@ values."
      ;; ----------------------------------------------------------------
      helm
      auto-completion
+     syntax-checking
+     spell-checking
      ;; better-defaults
+
      c-c++
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
+
      emacs-lisp
      git
      markdown
@@ -50,8 +54,6 @@ values."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     spell-checking
-     syntax-checking
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -183,7 +185,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -325,6 +327,7 @@ you should place your code here."
   (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
   (define-key evil-motion-state-map (kbd "C-k") 'evil-scroll-line-up)
   (define-key evil-motion-state-map (kbd "C-j") 'evil-scroll-line-down)
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
