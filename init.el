@@ -51,7 +51,7 @@ values."
      markdown
      org
      (shell :variables
-            shell-default-height 60
+            shell-default-height 30
             shell-default-position 'bottom)
      ;; version-control
      )
@@ -139,7 +139,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Monaco"
-                               :size 20
+                               :size 18
                                :weight normal
                                :width normal
                                :powerline-scale 0.4)
@@ -214,7 +214,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.1
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -321,11 +321,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; (setq spacemacs-show-trailing-whitespace nil)
+  (setq spacemacs-show-trailing-whitespace nil)
   (define-key evil-motion-state-map "f" 'evil-avy-goto-word-or-subword-1)
   (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
-  (define-key evil-motion-state-map (kbd "C-k") 'evil-scroll-line-up)
-  (define-key evil-motion-state-map (kbd "C-j") 'evil-scroll-line-down)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   (put 'helm-make-build-dir 'safe-local-variable 'stringp)
   )
@@ -354,4 +352,3 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
-
