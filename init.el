@@ -138,11 +138,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Monaco"
-                               :size 18
-                               :weight normal
-                               :width normal
-                               :powerline-scale 0.4)
+
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -308,11 +304,33 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  ;;tsinghua mirrors
 (setq configuration-layer--elpa-archives
- '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-     ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-     ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
-  )
+      '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+        ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
+(if (eq system-type 'gnu/linux)
+    (setq-default dotspacemacs-default-font '("Hack"
+                                              :size 18
+                                              :weight normal
+                                              :width normal
+                                              :powerline-scale 0.5)))
+
+;;win10
+(if (eq system-type 'windows-nt)
+    (setq-default dotspacemacs-default-font '("Consolas"
+                                              :size 18
+                                              :weight normal
+                                              :width normal
+                                              :powerline-scale 0.5)))
+
+(if (eq system-type 'darwin)
+    (setq-default dotspacemacs-default-font '("Monaco"
+                                              :size 18
+                                              :weight normal
+                                              :width normal
+                                              :powerline-scale 0.5))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
