@@ -41,15 +41,14 @@ values."
      syntax-checking
      ;; spell-checking
      ;; better-defaults
-     c-c++
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
 
      emacs-lisp
      git
-     markdown
      org
+     markdown
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -138,7 +137,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Hack"
+   dotspacemacs-default-font '("Menlo"
                                :size 14
                                :weight normal
                                :width normal
@@ -346,9 +345,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq spacemacs-show-trailing-whitespace nil)
   (define-key evil-motion-state-map "f" 'evil-avy-goto-word-or-subword-1)
-  (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-  (put 'helm-make-build-dir 'safe-local-variable 'stringp)
+  ;;(put 'helm-make-build-dir 'safe-local-variable 'stringp)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
