@@ -48,7 +48,8 @@ values."
 
      emacs-lisp
      git
-     org
+     (org :variables
+          org-projectile-file "~/.spacemacs.d/org/TODOs.org")
      markdown
      (shell :variables
             shell-default-height 30
@@ -89,7 +90,7 @@ values."
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-https nil
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    dotspacemacs-elpa-timeout 5
    ;; If non nil then spacemacs will check for updates at startup
@@ -139,10 +140,10 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Menlo"
-                               :size 14
+                               :size 18
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1)
 
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -215,7 +216,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.1
+   dotspacemacs-which-key-delay 0
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -266,12 +267,8 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers '(:t
-                               :disabled-for-modes org-mode
-                               doc-view-mode
-                               markdown-mode
-                               pdf-view-mode)
    ;; Code folding method. Possible values are `evil' and `origami'.
+   dotspacemacs-line-numbers nil
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
@@ -324,7 +321,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                               :size 18
                                               :weight normal
                                               :width normal
-                                              :powerline-scale 0.5)))
+                                              :powerline-scale 1)))
 
 ;;win10
 (if (eq system-type 'windows-nt)
@@ -332,14 +329,14 @@ before packages are loaded. If you are unsure, you should try in setting them in
                                               :size 18
                                               :weight normal
                                               :width normal
-                                              :powerline-scale 0.5)))
+                                              :powerline-scale 1)))
 
 (if (eq system-type 'darwin)
     (setq-default dotspacemacs-default-font '("Monaco"
                                               :size 18
                                               :weight normal
                                               :width normal
-                                              :powerline-scale 0.5))))
+                                              :powerline-scale 1))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -349,10 +346,14 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq spacemacs-show-trailing-whitespace nil)
+  (setq neo-show-hidden-files nil)
   (define-key evil-motion-state-map "f" 'evil-avy-goto-word-or-subword-1)
   (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-  ;;(put 'helm-make-build-dir 'safe-local-variable 'stringp)
+  (with-eval-after-load 'org
+    ;; here goes your Org config :)
+    (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+    )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -363,13 +364,13 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(display-line-numbers-type (quote relative))
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
+ '(neo-autorefresh t)
  '(package-selected-packages
    (quote
-    (helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+    (org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(safe-local-variable-values (quote ((helm-make-build-dir . "build-emacs/"))))
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
@@ -380,3 +381,32 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(display-line-numbers-type (quote relative) t)
+ '(display-time-mode t)
+ '(evil-want-Y-yank-to-eol nil)
+ '(fringe-mode (quote (nil . 0)) nil (fringe))
+ '(package-selected-packages
+   (quote
+    (yasnippet-snippets symon string-inflection spaceline-all-the-icons all-the-icons memoize password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode font-lock+ dotenv-mode helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+ '(safe-local-variable-values (quote ((helm-make-build-dir . "build-emacs/"))))
+ '(scroll-bar-mode nil)
+ '(show-trailing-whitespace nil)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
+)
