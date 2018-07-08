@@ -351,8 +351,8 @@ you should place your code here."
     (with-eval-after-load 'avy
       (add-to-list 'avy-keys-alist
                    (cons 'avy-goto-word-0 (list ?a ?s ?d ?f ?l ?k ?j
-                                                ?w ?e ?r ?i ?o ?u ?i ?v ?n
-                                                ?c ?m ?g ?h)))))
+                                                ?w ?e ?u ?i ?v ?n
+                                                ?g ?h)))))
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
