@@ -40,8 +40,6 @@ values."
      auto-completion
      syntax-checking
      gtags
-     ;; spell-checking
-     ;; better-defaults
 
      ;;language
      (c-c++ :variables
@@ -351,12 +349,15 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (when (configuration-layer/package-usedp 'avy)
     (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
-    (define-key evil-motion-state-map "F" 'evil-avy-goto-line)
+    (define-key evil-motion-state-map "F" #'evil-avy-goto-line)
+    (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
+    (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
     (with-eval-after-load 'avy
       (add-to-list 'avy-keys-alist
-                   (cons 'avy-goto-word-0 (list ?a ?s ?d ?f ?l ?k ?j
-                                                ?w ?e ?u ?i ?v ?n
-                                                ?g ?h ?c ?r ?o ?m)))))
+                   (cons 'avy-goto-word-0 (list ?a ?s ?d ?l ?k ?j
+                                                ?w ?e ?u ?i ?v ?n ?g
+                                                ?h ?c ?r ?o ?m)))))
+
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
