@@ -20,10 +20,10 @@ values."
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
    ;; (default 'unused)
-   dotspacemacs-enable-lazy-installation 'all
+   dotspacemacs-enable-lazy-installation 'unused
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
-   dotspacemacs-ask-for-lazy-installation t
+   dotspacemacs-ask-for-lazy-installation nil
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -42,12 +42,16 @@ values."
      gtags
      ;; spell-checking
      ;; better-defaults
+
+     ;;language
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t)
-
+     octave
      emacs-lisp
-     git
+
+     ;;organization
+     (git :variables git-magit-status-fullscreen t)
      (org :variables
           org-projectile-file "~/.spacemacs.d/org/TODOs.org")
      markdown
@@ -352,7 +356,7 @@ you should place your code here."
       (add-to-list 'avy-keys-alist
                    (cons 'avy-goto-word-0 (list ?a ?s ?d ?f ?l ?k ?j
                                                 ?w ?e ?u ?i ?v ?n
-                                                ?g ?h)))))
+                                                ?g ?h ?c ?r ?o ?m)))))
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
@@ -417,7 +421,7 @@ This function is called at the very end of Spacemacs initialization."
     ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets symon string-inflection spaceline-all-the-icons all-the-icons memoize password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode font-lock+ dotenv-mode helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+    (counsel-gtags yasnippet-snippets symon string-inflection spaceline-all-the-icons all-the-icons memoize password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode font-lock+ dotenv-mode helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(safe-local-variable-values
    (quote
     ((projectile-project-test-cmd . "./build-emacs/YUVCam.app/Contents/MacOS/YUVCam")
