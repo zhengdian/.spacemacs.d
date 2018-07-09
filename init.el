@@ -247,9 +247,9 @@ values."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
    ;; If non nil show the titles of transient states. (default t)
-   dotspacemacs-show-transient-state-title t
+   dotspacemacs-show-transient-state-title nil
    ;; If non nil show the color guide hint for transient state keys. (default t)
-   dotspacemacs-show-transient-state-color-guide t
+   dotspacemacs-show-transient-state-color-guide nil
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -348,15 +348,17 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (when (configuration-layer/package-usedp 'avy)
-    (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
-    (define-key evil-motion-state-map "F" #'evil-avy-goto-line)
-    (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
-    (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
     (with-eval-after-load 'avy
       (add-to-list 'avy-keys-alist
                    (cons 'avy-goto-word-0 (list ?a ?s ?d ?l ?k ?j
                                                 ?w ?e ?u ?i ?v ?n ?g
                                                 ?h ?c ?r ?o ?m)))))
+
+  (define-key evil-motion-state-map (kbd "C-j") #'spacemacs/scroll-transient-state/body)
+  (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
+  (define-key evil-motion-state-map (kbd "F") #'evil-avy-goto-line)
+  (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
+  (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
 
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
