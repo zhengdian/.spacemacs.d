@@ -373,10 +373,11 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "SPC p ESC") (kbd "ESC"))
 
   (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
-  (define-key evil-motion-state-map ";" #'helm-projectile-find-file-dwim)
   (define-key evil-motion-state-map (kbd "F") #'evil-avy-goto-line)
   (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
   (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
+
+  (define-key evil-motion-state-map (kbd ";") #'helm-projectile-find-file-dwim)
 
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
