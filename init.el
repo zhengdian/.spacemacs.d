@@ -51,7 +51,8 @@ values."
      ;;organization
      (git :variables git-magit-status-fullscreen t)
      (org :variables
-          org-projectile-file "~/.spacemacs.d/org/TODOs.org")
+          org-projectile-file "~/.spacemacs.d/org/TODOs.org"
+          org-want-todo-bindings t)
      markdown
      (shell :variables
             shell-default-height 30
@@ -416,6 +417,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(avy-all-windows nil)
  '(column-number-mode t)
  '(display-line-numbers-type (quote relative) t)
  '(display-time-mode t)
