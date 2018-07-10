@@ -358,7 +358,22 @@ you should place your code here."
                                                 ?w ?e ?u ?i ?v ?n ?g
                                                 ?h ?c ?r ?o ?m)))))
 
+  (define-key evil-motion-state-map (kbd "SPC ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC a ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC b ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC c ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC e ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC f ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC g ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC h ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC j ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC k ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC w ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC s ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC p ESC") (kbd "ESC"))
+
   (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
+  (define-key evil-motion-state-map ";" #'helm-projectile-find-file-dwim)
   (define-key evil-motion-state-map (kbd "F") #'evil-avy-goto-line)
   (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
   (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
