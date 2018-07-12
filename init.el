@@ -40,6 +40,7 @@ values."
      auto-completion
      syntax-checking
      gtags
+     semantic
 
      ;;language
      (c-c++ :variables
@@ -50,9 +51,7 @@ values."
 
      ;;organization
      (git :variables git-magit-status-fullscreen t)
-     (org :variables
-          org-projectile-file "~/.spacemacs.d/org/TODOs.org"
-          org-want-todo-bindings t)
+     (org :variables org-want-todo-bindings t)
      markdown
      (shell :variables
             shell-default-height 30
@@ -127,7 +126,8 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
+   dotspacemacs-startup-lists '((agenda . 5)
+                                (recents . 5)
                                 (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
@@ -142,7 +142,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Manoco"
+   dotspacemacs-default-font '('("Manaco" "Consolas")
                                :size 18
                                :weight normal
                                :width normal
@@ -376,8 +376,9 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "F") #'evil-avy-goto-line)
   (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
   (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
-
   (define-key evil-motion-state-map (kbd ";") #'helm-projectile-find-file-dwim)
+
+  (define-key evil-normal-state-map (kbd "DEL") #'kill-this-buffer)
 
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
@@ -388,6 +389,9 @@ you should place your code here."
     (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-todo-keywords
           '((sequence "TODO" "IN-PROGRESS" "DONE")))
+
+    (setq org-projectile-file "~/.spacemacs.d/org/work.org")
+    (setq org-agenda-files (list "~/.spacemacs.d/org"))
     )
   (setq projectile-require-project-root t)
   )
@@ -433,9 +437,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(avy-all-windows nil)
  '(column-number-mode t)
- '(display-line-numbers-type (quote relative) t)
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
@@ -444,7 +446,7 @@ This function is called at the very end of Spacemacs initialization."
     ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
  '(package-selected-packages
    (quote
-    (counsel-gtags yasnippet-snippets symon string-inflection spaceline-all-the-icons all-the-icons memoize password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode font-lock+ dotenv-mode helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+    (stickyfunc-enhance srefactor yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(powerline-height 18)
  '(safe-local-variable-values
    (quote
