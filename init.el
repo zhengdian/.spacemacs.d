@@ -371,29 +371,26 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "SPC w ESC") (kbd "ESC"))
   (define-key evil-motion-state-map (kbd "SPC s ESC") (kbd "ESC"))
   (define-key evil-motion-state-map (kbd "SPC p ESC") (kbd "ESC"))
+  (define-key evil-motion-state-map (kbd "SPC r ESC") (kbd "ESC"))
 
   (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
-  (define-key evil-motion-state-map (kbd "F") #'evil-avy-goto-line)
-  (define-key evil-motion-state-map "ge" #'evil-end-of-visual-line)
-  (define-key evil-motion-state-map "gb" #'evil-beginning-of-visual-line)
-  (define-key evil-motion-state-map (kbd ";") #'helm-projectile-find-file-dwim)
-
-  (define-key evil-normal-state-map (kbd "DEL") #'kill-this-buffer)
 
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   (add-hook 'prog-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  (with-eval-after-load 'org
-    ;; here goes your Org config :)
-    (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-    (setq org-todo-keywords
-          '((sequence "TODO" "IN-PROGRESS" "DONE")))
 
+  ;;org mode
+  (with-eval-after-load 'org
+    (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-projectile-file "~/.spacemacs.d/org/work.org")
     (setq org-agenda-files (list "~/.spacemacs.d/org"))
     )
-  (setq projectile-require-project-root t)
+  (with-eval-after-load 'evil-maps
+    (define-key evil-normal-state-map (kbd "; a") #'org-agenda-list)
+    (define-key evil-normal-state-map (kbd "; c") #'org-capture)
+    (define-key evil-normal-state-map (kbd "; t") #'org-todo-list)
+    )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -437,6 +434,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(avy-all-windows nil)
  '(column-number-mode t)
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
