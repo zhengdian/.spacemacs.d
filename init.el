@@ -375,6 +375,7 @@ you should place your code here."
 
   (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
 
+
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
@@ -385,6 +386,8 @@ you should place your code here."
     (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     (setq org-projectile-file "~/.spacemacs.d/org/work.org")
     (setq org-agenda-files (list "~/.spacemacs.d/org"))
+    (setq org-todo-keywords
+          '((sequence "TODO" "IN-PROCESS" "|" "DONE")))
     )
   (with-eval-after-load 'evil-maps
     (define-key evil-normal-state-map (kbd "; a") #'org-agenda-list)
@@ -434,7 +437,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(avy-all-windows nil)
+ '(avy-all-windows nil t)
  '(column-number-mode t)
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
@@ -442,6 +445,7 @@ This function is called at the very end of Spacemacs initialization."
  '(neo-hidden-regexp-list
    (quote
     ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
+ '(org-agenda-span (quote day))
  '(package-selected-packages
    (quote
     (stickyfunc-enhance srefactor yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))

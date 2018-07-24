@@ -1,0 +1,71 @@
+* [[elisp:(org-projectile-open-project%20"YUVStreamingQT")][YUVStreamingQT]] [2/6]
+  :PROPERTIES:
+  :CATEGORY: YUVStreamingQT
+  :END:
+   when you solve these problems, recognize rate will achieve 95%
+
+** DONE tong_6 tong_7 tong_8
+   CLOSED: [2018-07-23 一 15:01]
+   :LOGBOOK:
+   CLOCK: [2018-07-10 Tue 15:05]--[2018-07-10 Tue 15:30] =>  0:25
+   CLOCK: [2018-07-10 Tue 14:33]--[2018-07-10 Tue 14:58] =>  0:25
+   CLOCK: [2018-07-08 Sun 15:45]--[2018-07-08 Sun 16:10] =>  0:25
+   :END:
+   30 / 1700
+   - take a look at tong_678 recognize algorithm process
+     - [X] print midle result for every process
+     - [X] save middle product in tag-yuv
+       - [X] save image to path not exist
+       - [X] save need observe midle result
+       - [X] take a look and record
+         - tong_6 as tong_8 -- 3
+         - tong_7 as tong_8 -- 1 -- gap width = 1
+
+** DONE seg_tiao_2 recognized as seg_tiao_6_7_9
+   CLOSED: [2018-07-23 一 15:01]
+   35 / 1700
+*** DONE print majon_tiao multiRecognize
+    CLOSED: [2018-07-12 四 14:32] SCHEDULED: <2018-07-12 四 09:30-12:00>
+    :LOGBOOK:
+    CLOCK: [2018-07-12 四 09:39]--[2018-07-12 四 10:04] =>  0:25
+    :END:
+      print all tiao
+*** DONE study majon_tiao 237
+    CLOSED: [2018-07-13 Fri 14:13] SCHEDULED: <2018-07-12 四 14:44-15:44>
+    :LOGBOOK:
+    CLOCK: [2018-07-12 四 15:04]--[2018-07-15 Sun 12:34] => 69:30
+    CLOCK: [2018-07-12 四 14:34]--[2018-07-12 四 14:59] =>  0:25
+    :END:
+
+** IN-PROCESS transplant
+   SCHEDULED: <2018-07-24 Tue 09:00>
+   - [X] pure algorithm -- uncouple split and recognize
+   - [X] make with opencv on 126 server
+   - [ ] read yuv file and process on chip
+   - [ ] online caller
+   - [ ]
+
+** TODO tiao_4 as tiao 5
+   18 / 1700
+
+** TODO tong_4 as tong_5
+   9 / 1700
+
+** TODO tong_2 as tong_1 or tong_3
+   10 / 1700
+
+** wan error
+   112 / 1700 -- 6%
+   - wan_123 as wan_4_6 -- 41
+   - wan_7 error 17
+   - wan_9 error 23
+
+* [[elisp:(org-projectile-open-project%20"ewelly")][ewelly]] [/]
+  :PROPERTIES:
+  :CATEGORY: ewelly
+  :END:
+
+* [[elisp:(org-projectile-open-project%20".spacemacs.d")][.spacemacs.d]] [/]
+  :PROPERTIES:
+  :CATEGORY: .spacemacs.d
+  :END:
