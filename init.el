@@ -36,6 +36,10 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     (chinese :variables
+              chinese-enable-fcitx t)
+
+     ;;program
      helm
      auto-completion
      syntax-checking
@@ -251,9 +255,9 @@ values."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
    ;; If non nil show the titles of transient states. (default t)
-   dotspacemacs-show-transient-state-title nil
+   dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
-   dotspacemacs-show-transient-state-color-guide nil
+   dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -317,10 +321,12 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;;tsinghua mirrors
-(setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-        ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+(setq configuration-layer-elpa-archives
+    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
+(setq powerline-height 18)
 
 (if (eq system-type 'gnu/linux)
     (setq-default dotspacemacs-default-font '("Hack"
@@ -384,15 +390,28 @@ you should place your code here."
   ;;org mode
   (with-eval-after-load 'org
     (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-    (setq org-projectile-file "~/.spacemacs.d/org/work.org")
-    (setq org-agenda-files (list "~/.spacemacs.d/org"))
+    (setq org-projectile-file "~/.spacemacs.d/org/gtd/project.org")
+    (setq org-agenda-files (list "~/.spacemacs.d/org/gtd"))
     (setq org-todo-keywords
-          '((sequence "TODO" "IN-PROCESS" "|" "DONE")))
+          '((sequence "TODO(t)" "INPROCESS(i)" "|" "DONE(d)")
+            (sequence "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+            (sequence "|" "FAILED(f)" "CANCELED(c)")))
+    (setq org-inhibit-logging t)
+    (setq org-refile-targets '(("~/.spacemacs.d/org/gtd/gtd.org" :maxlevel . 3)
+                               ("~/.spacemacs.d/org/gtd/someday.org" :level . 1)
+                               ("~/.spacemacs.d/org/gtd/tickler.org" :maxlevel . 2)))
+    (setq org-agenda-span (quote day))
+    (setq org-agenda-time-grid
+          (quote
+           (nil
+            (800 1000 1200 1400 1600 1800 2000)
+            "......" "----------------")))
     )
   (with-eval-after-load 'evil-maps
     (define-key evil-normal-state-map (kbd "; a") #'org-agenda-list)
     (define-key evil-normal-state-map (kbd "; c") #'org-capture)
     (define-key evil-normal-state-map (kbd "; t") #'org-todo-list)
+    (define-key evil-normal-state-map (kbd "; p") #'org-pomodoro)
     )
   )
 
@@ -413,11 +432,6 @@ you should place your code here."
  '(package-selected-packages
    (quote
     (yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
- '(safe-local-variable-values
-   (quote
-    (
-     (projectile-project-test-cmd . "./build-emacs/YUVCam.app/Contents/MacOS/YUVCam")
-     (helm-make-build-dir . "build-emacs/"))))
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
  '(tool-bar-mode nil))
@@ -437,7 +451,6 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(avy-all-windows nil t)
  '(column-number-mode t)
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
@@ -445,15 +458,15 @@ This function is called at the very end of Spacemacs initialization."
  '(neo-hidden-regexp-list
    (quote
     ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
- '(org-agenda-span (quote day))
+ '(org-agenda-time-grid
+   (quote
+    (nil
+     (800 1000 1200 1400 1600 1800 2000)
+     "......" "----------------")))
  '(package-selected-packages
    (quote
-    (stickyfunc-enhance srefactor yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+    (symon string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons all-the-icons memoize pyim pyim-basedict password-generator pangu-spacing overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags find-by-pinyin-dired fcitx evil-org evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode ace-pinyin pinyinlib font-lock+ dotenv-mode yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(powerline-height 18)
- '(safe-local-variable-values
-   (quote
-    ((projectile-project-test-cmd . "./build-emacs/YUVCam.app/Contents/MacOS/YUVCam")
-     (helm-make-build-dir . "build-emacs/"))))
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
  '(tool-bar-mode nil))

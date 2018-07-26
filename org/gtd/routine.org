@@ -1,0 +1,17 @@
+* 日常
+** TODO 计划
+   SCHEDULED: <2018-07-27 Fri 09:00-09:20 +1d>
+   :PROPERTIES:
+   :LOGGING: nil
+   :END:
+** [[file:project.org][项目]]
+** [[file:study.org][学习]]
+** TODO 跑步
+   SCHEDULED: <2018-07-26 Thu 20:45-22:00 +1d>
+
+** TODO 阅读
+   SCHEDULED: <2018-07-26 Thu 22:30-23:15 +1d>
+** TODO 日记
+   SCHEDULED: <2018-07-26 Thu 23:15-23:45 +1d>
+** TODO 冥想
+   SCHEDULED: <2018-07-26 Thu 23:45-24:00 +1d>

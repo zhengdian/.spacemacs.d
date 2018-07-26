@@ -1,5 +1,4 @@
 * Machine learning
   study two hours
 ** TODO week 4
-   SCHEDULED: <2018-07-24 Tue 18:00-21:00>
    week 4

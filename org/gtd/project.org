@@ -1,0 +1,28 @@
+* INPROCESS 移植 [4/7]
+  SCHEDULED: <2018-07-26 Thu 09:00-20:00>
+  :LOGBOOK:
+  CLOCK: [2018-07-25 Wed 17:32]
+  CLOCK: [2018-07-25 Wed 17:02]--[2018-07-25 Wed 17:27] =>  0:25
+  :END:
+  - [X] pure algorithm -- uncouple split and recognize
+  - [X] make with opencv on 126 server
+  - [X] read yuv file and process on chip
+  - [X] GTAGS on 126
+  - [ ] online caller
+  - [ ] speed optimize
+  - [ ] roi selector
+
+* TODO tiao_4 as tiao 5
+  18 / 1700
+
+* TODO tong_4 as tong_5
+  9 / 1700
+
+* TODO tong_2 as tong_1 or tong_3
+  10 / 1700
+
+* wan error
+  112 / 1700 -- 6%
+  - wan_123 as wan_4_6 -- 41
+  - wan_7 error 17
+  - wan_9 error 23
