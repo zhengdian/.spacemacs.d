@@ -357,6 +357,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (require 'pyim-basedict) ; 拼音词库设置，五笔用户 *不需要* 此行设置
+  (pyim-basedict-enable)   ; 拼音词库，五笔用户 *不需要* 此行设置
+
   (when (configuration-layer/package-usedp 'avy)
     (with-eval-after-load 'avy
       (add-to-list 'avy-keys-alist
@@ -400,6 +403,7 @@ you should place your code here."
     (setq org-refile-targets '(("~/.spacemacs.d/org/gtd/gtd.org" :maxlevel . 3)
                                ("~/.spacemacs.d/org/gtd/someday.org" :level . 1)
                                ("~/.spacemacs.d/org/gtd/tickler.org" :maxlevel . 2)))
+
     (setq org-agenda-span (quote day))
     (setq org-agenda-time-grid
           (quote
@@ -428,7 +432,7 @@ you should place your code here."
  '(fringe-mode (quote (nil . 0)) nil (fringe))
  '(neo-hidden-regexp-list
    (quote
-    ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
+    ("^\\." "\\.pyc$" "~$" "^#.*#$" ".o$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
  '(package-selected-packages
    (quote
     (yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
@@ -455,9 +459,6 @@ This function is called at the very end of Spacemacs initialization."
  '(display-time-mode t)
  '(evil-want-Y-yank-to-eol nil)
  '(fringe-mode (quote (nil . 0)) nil (fringe))
- '(neo-hidden-regexp-list
-   (quote
-    ("^\\." "\\.pyc$" "~$" "^#.*#$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
  '(org-agenda-time-grid
    (quote
     (nil
@@ -467,6 +468,7 @@ This function is called at the very end of Spacemacs initialization."
    (quote
     (symon string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons all-the-icons memoize pyim pyim-basedict password-generator pangu-spacing overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags find-by-pinyin-dired fcitx evil-org evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode ace-pinyin pinyinlib font-lock+ dotenv-mode yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(powerline-height 18)
+ '(pyim-dicts nil)
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
  '(tool-bar-mode nil))
