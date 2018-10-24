@@ -36,6 +36,7 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+
      (chinese :variables
               chinese-enable-fcitx t)
 
@@ -56,7 +57,7 @@ values."
      ;;organization
      (git :variables git-magit-status-fullscreen t)
      (org :variables org-want-todo-bindings t)
-     markdown
+     ;;markdown
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -140,8 +141,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-light
-                         spacemacs-dark)
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -238,14 +239,14 @@ values."
    dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -285,8 +286,7 @@ values."
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
-   ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
+   ;; over any automatically added closing parenthesis, bracket, quote, etc�?   ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -321,34 +321,34 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
   ;;tsinghua mirrors
-(setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+  (setq configuration-layer-elpa-archives
+        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
-(setq powerline-height 18)
+  (setq powerline-height 18)
 
-(if (eq system-type 'gnu/linux)
-    (setq-default dotspacemacs-default-font '("Hack"
-                                              :size 18
-                                              :weight normal
-                                              :width normal
-                                              :powerline-scale 1)))
+  (if (eq system-type 'gnu/linux)
+      (setq-default dotspacemacs-default-font '("Hack"
+                                                :size 18
+                                                :weight normal
+                                                :width normal
+                                                :powerline-scale 1)))
 
-;;win10
-(if (eq system-type 'windows-nt)
-    (setq-default dotspacemacs-default-font '("Consolas"
-                                              :size 18
-                                              :weight normal
-                                              :width normal
-                                              :powerline-scale 1)))
+  ;;win10
+  (if (eq system-type 'windows-nt)
+      (setq-default dotspacemacs-default-font '("Consolas"
+                                                :size 18
+                                                :weight normal
+                                                :width normal
+                                                :powerline-scale 1)))
 
-(if (eq system-type 'darwin)
-    (setq-default dotspacemacs-default-font '("Monaco"
-                                              :size 18
-                                              :weight normal
-                                              :width normal
-                                              :powerline-scale 1))))
+  (if (eq system-type 'darwin)
+      (setq-default dotspacemacs-default-font '("Monaco"
+                                                :size 18
+                                                :weight normal
+                                                :width normal
+                                                :powerline-scale 1))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -357,8 +357,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (require 'pyim-basedict) ; 拼音词库设置，五笔用户 *不需要* 此行设置
-  (pyim-basedict-enable)   ; 拼音词库，五笔用户 *不需要* 此行设置
 
   (when (configuration-layer/package-usedp 'avy)
     (with-eval-after-load 'avy
@@ -392,17 +390,17 @@ you should place your code here."
 
   ;;org mode
   (with-eval-after-load 'org
-    (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-    (setq org-projectile-file "~/.spacemacs.d/org/gtd/project.org")
-    (setq org-agenda-files (list "~/.spacemacs.d/org/gtd"))
+    ;; (setq org-bullets-bullet-list '("�? "�? "�? "�?))
+    (setq org-projectile-file "~/org/gtd/project.org")
+    (setq org-agenda-files (list "~/org/gtd"))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "INPROCESS(i)" "|" "DONE(d)")
             (sequence "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
             (sequence "|" "FAILED(f)" "CANCELED(c)")))
     (setq org-inhibit-logging t)
-    (setq org-refile-targets '(("~/.spacemacs.d/org/gtd/gtd.org" :maxlevel . 3)
-                               ("~/.spacemacs.d/org/gtd/someday.org" :level . 1)
-                               ("~/.spacemacs.d/org/gtd/tickler.org" :maxlevel . 2)))
+    (setq org-refile-targets '(("~/org/gtd/gtd.org" :maxlevel . 3)
+                               ("~/org/gtd/someday.org" :level . 1)
+                               ("~/org/gtd/tickler.org" :maxlevel . 2)))
 
     (setq org-agenda-span (quote day))
     (setq org-agenda-time-grid
@@ -435,7 +433,7 @@ you should place your code here."
     ("^\\." "\\.pyc$" "~$" "^#.*#$" ".o$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+    (stickyfunc-enhance srefactor pyim pyim-basedict pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
  '(scroll-bar-mode nil)
  '(show-trailing-whitespace nil)
  '(tool-bar-mode nil))
@@ -450,32 +448,28 @@ you should place your code here."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(display-time-mode t)
- '(evil-want-Y-yank-to-eol nil)
- '(fringe-mode (quote (nil . 0)) nil (fringe))
- '(org-agenda-time-grid
-   (quote
-    (nil
-     (800 1000 1200 1400 1600 1800 2000)
-     "......" "----------------")))
- '(package-selected-packages
-   (quote
-    (symon string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons all-the-icons memoize pyim pyim-basedict password-generator pangu-spacing overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list google-c-style gitignore-templates flycheck-rtags find-by-pinyin-dired fcitx evil-org evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig counsel-projectile counsel swiper ivy company-rtags rtags centered-cursor-mode ace-pinyin pinyinlib font-lock+ dotenv-mode yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
- '(powerline-height 18)
- '(pyim-dicts nil)
- '(scroll-bar-mode nil)
- '(show-trailing-whitespace nil)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(column-number-mode t)
+   '(display-time-mode t)
+   '(evil-want-Y-yank-to-eol nil)
+   '(fringe-mode (quote (nil . 0)) nil (fringe))
+   '(neo-hidden-regexp-list
+     (quote
+      ("^\\." "\\.pyc$" "~$" "^#.*#$" ".o$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
+   '(package-selected-packages
+     (quote
+      (symon string-inflection spaceline-all-the-icons password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list helm-org-rifle helm-git-grep google-c-style gitignore-templates flycheck-rtags evil-org treepy graphql evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize counsel-projectile counsel swiper ivy company-rtags rtags chinese-conv centered-cursor-mode font-lock+ dotenv-mode stickyfunc-enhance srefactor pyim pyim-basedict pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+   '(scroll-bar-mode nil)
+   '(show-trailing-whitespace nil)
+   '(tool-bar-mode nil))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
+  )
