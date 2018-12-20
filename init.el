@@ -1,4 +1,4 @@
-﻿;; -*- mode: emacs-lisp -*-
+;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -147,7 +147,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '('("Source Code Pro" "Consolas")
+   dotspacemacs-default-font '('("Manaco" "Consolas")
                                :size 18
                                :weight normal
                                :width normal
@@ -325,7 +325,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
         '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
           ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
           ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
-		  (setq powerline-height 18)
+
+  (setq powerline-height 18)
 
   (if (eq system-type 'gnu/linux)
       (setq-default dotspacemacs-default-font '("Hack"
@@ -336,22 +337,18 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;;win10
   (if (eq system-type 'windows-nt)
-      (setq-default dotspacemacs-default-font '("Source Code Pro"
+      (setq-default dotspacemacs-default-font '("Consolas"
                                                 :size 18
                                                 :weight normal
                                                 :width normal
                                                 :powerline-scale 1)))
-
-
-
 
   (if (eq system-type 'darwin)
       (setq-default dotspacemacs-default-font '("Monaco"
                                                 :size 18
                                                 :weight normal
                                                 :width normal
-                                                :powerline-scale 1)))
-)
+                                                :powerline-scale 1))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -360,12 +357,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; Chinese Font 放在user-init中无效
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font (frame-parameter nil 'font)
-                      charset (font-spec :family "微软雅黑"
-                                         :size 18)))
 
+  (if (eq system-type 'windows-nt)
+      (dolist (charset '(kana han cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset
+                          (font-spec :family "宋体" :size 20))))
 
   (when (configuration-layer/package-usedp 'avy)
     (with-eval-after-load 'avy
@@ -389,7 +385,7 @@ you should place your code here."
   (define-key evil-motion-state-map (kbd "SPC p ESC") (kbd "ESC"))
   (define-key evil-motion-state-map (kbd "SPC r ESC") (kbd "ESC"))
 
-  ;; (define-key evil-motion-state-map "f" #'evil-avy-goto-word-0)
+  (define-key evil-motion-state-map "f" #'evil-avy-goto-word-or-subword-1)
 
 
   (setq spacemacs-show-trailing-whitespace nil)
@@ -402,14 +398,25 @@ you should place your code here."
     (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     ;;(setq org-projectile-file "~/org/project.org")
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "INPROCESS(i)" "|" "DONE(d)")
-            (sequence "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+          '((sequence "TODO(t)" "INPROCESS(i)" "BLOCKED(b)" "WATING(w)" "|" "DONE(d)")
+            ;;(sequence "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+            (sequence "LEARNING(l)" "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
             (sequence "|" "FAILED(f)" "CANCELED(c)")))
 
     (setq org-inhibit-logging t)
     (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
                                ("~/org/someday.org" :level . 1)
                                ("~/org/tickler.org" :maxlevel . 2)))
+
+    ;;set priority range from A to C with default A
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority ?C)
+    (setq org-default-priority ?C)
+
+    ;;set colours for priorities
+    (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
+                               (?B . (:foreground "LightSteelBlue"))
+                               (?C . (:foreground "OliveDrab"))))
 
     (setq tramp-ssh-controlmaster-options
           "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
@@ -432,33 +439,28 @@ you should place your code here."
             ("t" "重要不紧急" entry (file+headline org-agenda-file-gtd "Important but not urgent")
              "* TODO [#B] %?\n  %i\n"
              :empty-lines 1)
-            ("g" "凡事预则立，不预则废" entry (file+headline org-agenda-file-goal "Goal")
-             "* %?\n  %i\n %U"
+            ("g" "今日目标" entry (file+datetree org-agenda-file-goal "Daily Goals")
+             "* TODO [#A] %?\n  %iSCHEDULED: <%(org-read-date nil nil \"+0d\")>\n\n* LEARNING [#B] \n %iSCHEDULED: <%(org-read-date nil nil \"+0d\")>\n"
              :empty-lines 1)
-            ("s" "吾尝终日不食,终夜不寝,以思无益,不如学也" entry (file+headline org-agenda-file-gtd "Study")
+            ("s" "学习" entry (file+headline org-agenda-file-gtd "Study")
              "* TODO [#B] %?\n  %i\n %U"
              :empty-lines 1)
-            ("n" "Notes" entry (file+headline org-agenda-file-note "Quick notes")
+            ("n" "笔记" entry (file+headline org-agenda-file-note "Quick notes")
              "* %?\n  %i\n %U"
              :empty-lines 1)
             ("l" "Links" entry (file+headline org-agenda-file-note "Quick notes")
              "* TODO [#C] %?\n  %i\n %a \n %U"
              :empty-lines 1)
-            ("j" "凡是过去，皆为序章" entry (file+datetree org-agenda-file-journal)
+            ("j" "日志" entry (file+datetree org-agenda-file-journal "Journal")
              "* %?"
              :empty-lines 1)))
     ;;An entry without a cookie is treated just like priority ' B '.
     ;;So when create new task, they are default 重要且紧急
     (setq org-agenda-custom-commands
           '(
-            ("w" . "任务安排")
-            ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-            ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-            ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-            ("l" "Learning" tags-todo "LEARNING")
-            ("p" . "项目安排")
-            ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"cocos2d-x\"")
-            ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+            ("a" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+            ("b" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+            ("l" "Learning" todo "LEARNING")
             ("W" "Weekly Review"
              ((stuck "") ;; review stuck projects as designated by org-stuck-projects
               (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
@@ -471,8 +473,7 @@ you should place your code here."
             (800 1000 1200 1400 1600 1800 2000)
             "......" "----------------")))
     )
-
-  (add-hook 'org-mode-hook (lambda()
+  (add-hook 'org-mode-hook (lambda ()
                              (setq truncate-lines nil)))
 
   (with-eval-after-load 'evil-maps
@@ -508,34 +509,34 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
+ '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(display-time-mode t)
- '(evil-want-Y-yank-to-eol nil)
- '(fringe-mode (quote (nil . 0)) nil (fringe))
- '(neo-hidden-regexp-list
-   (quote
-    ("^\\." "\\.pyc$" "~$" "^#.*#$" ".o$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
- '(package-selected-packages
-   (quote
-    (cnfonts symon string-inflection spaceline-all-the-icons password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list helm-org-rifle helm-git-grep google-c-style gitignore-templates flycheck-rtags evil-org treepy graphql evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize counsel-projectile counsel swiper ivy company-rtags rtags chinese-conv centered-cursor-mode font-lock+ dotenv-mode stickyfunc-enhance srefactor pyim pyim-basedict pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
- '(scroll-bar-mode nil)
- '(show-trailing-whitespace nil)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(column-number-mode t)
+   '(display-time-mode t)
+   '(evil-want-Y-yank-to-eol nil)
+   '(fringe-mode (quote (nil . 0)) nil (fringe))
+   '(neo-hidden-regexp-list
+     (quote
+      ("^\\." "\\.pyc$" "~$" "^#.*#$" ".o$" "\\.elc$" "GPATH" "GRTAGS" "GTAGS")))
+   '(package-selected-packages
+     (quote
+      (symon string-inflection spaceline-all-the-icons password-generator overseer org-brain nameless magit-svn helm-xref helm-rtags helm-purpose window-purpose imenu-list helm-org-rifle helm-git-grep google-c-style gitignore-templates flycheck-rtags evil-org treepy graphql evil-lion evil-goggles evil-ediff evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize counsel-projectile counsel swiper ivy company-rtags rtags chinese-conv centered-cursor-mode font-lock+ dotenv-mode stickyfunc-enhance srefactor pyim pyim-basedict pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib yasnippet-snippets org-projectile-helm helm-gtags ggtags xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help mmm-mode markdown-toc markdown-mode gh-md disaster company-c-headers cmake-mode clang-format smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download magit-gitflow htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub with-editor company-statistics company auto-yasnippet auto-dictionary ac-ispell yasnippet auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async org-plus-contrib evil-unimpaired f s dash)))
+   '(scroll-bar-mode nil)
+   '(show-trailing-whitespace nil)
+   '(tool-bar-mode nil))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 240 :width normal)))))
+  )
