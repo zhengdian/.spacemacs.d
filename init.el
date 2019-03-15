@@ -41,26 +41,26 @@ values."
               chinese-enable-fcitx t)
 
      ;;program
-     helm
-     auto-completion
-     syntax-checking
-     gtags
-     semantic
+     ;;helm
+     ;;auto-completion
+     ;;syntax-checking
+     ;;gtags
+     ;;semantic
 
      ;;language
-     (c-c++ :variables
-            c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-support t)
-     octave
+     ;;(c-c++ :variables
+     ;;       c-c++-default-mode-for-headers 'c++-mode
+     ;;       c-c++-enable-clang-support t)
+     ;;octave
      ;;emacs-lisp
 
      ;;organization
-     (git :variables git-magit-status-fullscreen t)
+     ;;(git :variables git-magit-status-fullscreen t)
      (org :variables org-want-todo-bindings t)
      ;;markdown
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     ;;(shell :variables
+     ;;       shell-default-height 30
+     ;;       shell-default-position 'bottom)
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -141,8 +141,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -387,7 +387,6 @@ you should place your code here."
 
   (define-key evil-motion-state-map "f" #'evil-avy-goto-word-or-subword-1)
 
-
   (setq spacemacs-show-trailing-whitespace nil)
   (setq neo-show-hidden-files nil)
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
@@ -398,10 +397,13 @@ you should place your code here."
     (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
     ;;(setq org-projectile-file "~/org/project.org")
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "INPROCESS(i)" "BLOCKED(b)" "WATING(w)" "|" "DONE(d)")
-            ;;(sequence "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
-            (sequence "LEARNING(l)" "REPORT(r)" "PERFORMANCE(p)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+          '((sequence "TODO(t)" "LEARNING(l)" "INPROCESS(i)" "BLOCKED(b)" "|" "Prototype(p)" "DONE(d)")
             (sequence "|" "FAILED(f)" "CANCELED(c)")))
+
+    (setq org-todo-keyword-faces
+          '(("TODO" . org-warning) ("INPROCESS" . "blue")
+            ("Done" . (:foreground "green" :weight bold))
+            ("CANCELED" . (:foreground "green" :weight bold))))
 
     (setq org-inhibit-logging t)
     (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
@@ -410,18 +412,20 @@ you should place your code here."
 
     ;;set priority range from A to C with default A
     (setq org-highest-priority ?A)
-    (setq org-lowest-priority ?C)
+    (setq org-lowest-priority ?D)
     (setq org-default-priority ?C)
 
     ;;set colours for priorities
-    (setq org-priority-faces '((?A . (:foreground "#F0DFAF" :weight bold))
-                               (?B . (:foreground "LightSteelBlue"))
-                               (?C . (:foreground "OliveDrab"))))
+    (setq org-priority-faces '((?A . (:foreground "red" :weight bold))
+                               (?B . (:foreground "OliveDrab"))
+                               (?C . (:foreground "LightSteelBlue"))
+                               (?D . (:foreground "orange"))))
 
     (setq tramp-ssh-controlmaster-options
           "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
     ;; define the refile targets
     (defvar org-agenda-dir "" "gtd org files location")
+    (setq org-agenda-skip-scheduled-if-done t) ;;agenda里隐藏Done标签
     (setq-default org-agenda-dir "~/org/")
     (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
     (setq org-agenda-file-goal (expand-file-name "goal.org" org-agenda-dir))
@@ -433,23 +437,26 @@ you should place your code here."
     ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
     ;;add multi-file journal
     (setq org-capture-templates
-          '(("d" "重要紧急" entry (file+headline org-agenda-file-gtd "Important and urgnet,Just Do It")
-             "* TODO [#A] %?\n  %i\n %U"
+          '(("a" "重要紧急" entry (file+headline org-agenda-file-gtd "重要紧急")
+             "* TODO %?\n  %i\n %U"
              :empty-lines 1)
-            ("t" "重要不紧急" entry (file+headline org-agenda-file-gtd "Important but not urgent")
-             "* TODO [#B] %?\n  %i\n"
+            ("b" "重要不紧急" entry (file+headline org-agenda-file-gtd "重要不紧急")
+             "* TODO %?\n  %i\n"
              :empty-lines 1)
-            ("g" "今日目标" entry (file+datetree org-agenda-file-goal "Daily Goals")
-             "* TODO [#A] %?\n  %iSCHEDULED: <%(org-read-date nil nil \"+0d\")>\n\n* LEARNING [#B] \n %iSCHEDULED: <%(org-read-date nil nil \"+0d\")>\n"
+            ("c" "不重要紧急" entry (file+headline org-agenda-file-gtd "不重要紧急")
+             "* TODO %?\n  %i\n"
+             :empty-lines 1)
+            ("d" "不重要不紧急" entry (file+headline org-agenda-file-gtd "不重要不紧急")
+             "* TODO %?\n  %i\n"
              :empty-lines 1)
             ("s" "学习" entry (file+headline org-agenda-file-gtd "Study")
-             "* TODO [#B] %?\n  %i\n %U"
+             "* TODO %?\n  %i\n %U"
              :empty-lines 1)
             ("n" "笔记" entry (file+headline org-agenda-file-note "Quick notes")
              "* %?\n  %i\n %U"
              :empty-lines 1)
             ("l" "Links" entry (file+headline org-agenda-file-note "Quick notes")
-             "* TODO [#C] %?\n  %i\n %a \n %U"
+             "* TODO %?\n  %i\n %a \n %U"
              :empty-lines 1)
             ("j" "日志" entry (file+datetree org-agenda-file-journal "Journal")
              "* %?"
@@ -466,7 +473,7 @@ you should place your code here."
               (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
               ))))
 
-    (setq org-agenda-span (quote day))
+    (setq org-agenda-span (quote week))
     (setq org-agenda-time-grid
           (quote
            (nil
@@ -477,7 +484,7 @@ you should place your code here."
                              (setq truncate-lines nil)))
 
   (with-eval-after-load 'evil-maps
-    (define-key evil-normal-state-map (kbd "; a") #'org-agenda)
+    (define-key evil-normal-state-map (kbd "; a") #'org-agenda-list)
     (define-key evil-normal-state-map (kbd "; c") #'org-capture)
     (define-key evil-normal-state-map (kbd "; t") #'org-todo-list)
     (define-key evil-normal-state-map (kbd "; p") #'org-pomodoro)
